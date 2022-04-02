@@ -1,6 +1,10 @@
 import numpy as np
 import pandas as pd
 
+angle=str(60)
+glass_distance=str(102)
+target_distance=str(202)
+
 filename='file.csv'
 data = np.asarray(pd.read_csv(filename))
 
@@ -20,4 +24,4 @@ print("std:",std)
 print("se:",se)
 print("n: ", np.shape(data)[0])
 
-pd.DataFrame(data).to_csv(str(median) + '_glass_nopaper.csv')
+pd.DataFrame(data).to_csv(angle + '_deg_' + glass_distance + '_glass_' + target_distance + '_target.csv')
