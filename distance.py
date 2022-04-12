@@ -18,13 +18,22 @@ ax = fig.add_axes([0.2,0.2,0.8,0.8])
 #50-1200mm with known behavior for the increasing error with distance.
 #we will measure this error with grey17 and white88 to compare.
 
+# beam splitter w/ backdrop at 200mm 0 deg incidence
 delta=1.016 # Correct mm distance
-dist=np.array([50,100,100,200,200,300,300,400,500,600,700,800])*delta
-dstd=np.array([1.583,1.78,1.78,1.75,1.70,2.58,2.61,4.87,6.99,7.50,7.59,7.22])*delta
-dmean=np.array([43.42,99.12,99.88,202.8,201.68,310.6,305.03,469.64,659.90,662.91,903.68,909.9])*delta
-dstderr=np.array([0.05,0.05,0.056,0.057,0.06,0.084,0.08,0.16,0.23,0.24,0.25,0.23])*delta
+dist=np.array([50, 100, 150, 150])*delta
+dstd=np.array([1.73, 1.80, 1.66, 1.86])*delta
+dmean=np.array([23.21, 73.52, 133.88, 119.12])*delta
+dstderr=np.array([0.06, 0.06, 0.05, 0.06])*delta
 derr=abs(dist-dmean)
+ax.errorbar(dmean,dstd,marker=None, xerr=derr, yerr=dstderr, ls='none')
 
+# beam splitter w/0 backdrop 0 deg incidence
+delta=1.016 # Correct mm distance
+dist=np.array([50, 100, 150])*delta
+dstd=np.array([1.96, 1.78, 1.83])*delta
+dmean=np.array([17.15, 66.39, 119.12])*delta
+dstderr=np.array([0.06, 0.06, 0.06])*delta
+derr=abs(dist-dmean)
 ax.errorbar(dmean,dstd,marker=None, xerr=derr, yerr=dstderr, ls='none')
 
 ax.spines['right'].set_visible(False)
