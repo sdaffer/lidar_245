@@ -1,3 +1,4 @@
+from cmath import rect
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -6,13 +7,16 @@ import random
 
 mpl.rcParams['pdf.fonttype'] = 42
 mpl.rcParams['ps.fonttype'] = 42
-mpl.rcParams['font.family'] = 'Arial'
+mpl.rcParams['font.family'] = 'Times New Roman'
 mpl.rcParams['axes.labelsize'] = 32
 mpl.rcParams['axes.titlesize'] = 50
 plt.rcParams['text.usetex'] = False
 
 fig = plt.figure(figsize=(10,10))
-ax = fig.add_axes([0.2,0.2,0.8,0.8])
+# ax = fig.add_axes([0.2,0.2,0.8,0.8])
+ax = fig.add_axes([0.2,0.2,0.6,0.6])
+# ax = fig.add_axes([])
+# ax = fig.add_axes([0.5,1,0.5,1])
 
 #we very the (d) the distance between the source and the window between
 #50-1200mm with known behavior for the increasing error with distance.
@@ -32,13 +36,13 @@ stderr=np.array([0.05,0.06,0.09,0.07,0.06,0.07,0.07,0.07,0.07,0.07,0.07])
 yerr=std+stderr
 xerr=np.ones_like(yerr)*angle_error
 
-ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, ls='none')
-ax.axhline(y=glass_distance, xmin=-5, xmax=65,color='orange')
-ax.axhline(y=glass_distance+glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--')
+ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, ls='none', label='LiDaR Distance Measured')
+ax.axhline(y=glass_distance, xmin=-5, xmax=65,color='orange', label='Glass Distance Measured')
+ax.axhline(y=glass_distance+glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--', label='Glass Distance Uncertainty')
 ax.axhline(y=glass_distance-glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--')
 
-ax.axhline(y=target_distance, xmin=-5, xmax=65,color='red')
-ax.axhline(y=target_distance+target_distance_uncertainty, xmin=-5, xmax=65,color='red',linestyle='--')
+ax.axhline(y=target_distance, xmin=-5, xmax=65,color='red', label='Target Distance Measured')
+ax.axhline(y=target_distance+target_distance_uncertainty, xmin=-5, xmax=65,color='red',linestyle='--', label='Target Distance Uncertainty')
 ax.axhline(y=target_distance-target_distance_uncertainty, xmin=-5, xmax=65,color='red',linestyle='--')
 
 ax.spines['right'].set_visible(False)
@@ -57,7 +61,7 @@ ax.grid(True,which='major',axis='both',alpha=0.3)
 ax.set_ylabel('Mean Distance (mm)')
 ax.set_xlabel('Window Angle (degrees)')
 ax.set_title('Object Detection Error')
-ax.legend([f'd = {d}(mm)' for i,d in enumerate(d) if i % 6 == 0], fontsize=32, loc='upper left')
-
-plt.show()
-#plt.savefig("linearexample.pdf", bbox_inches='tight')
+# ax.legend([f'd = {d}(mm)' for i,d in enumerate(d) if i % 6 == 0], fontsize=32, loc='upper left')
+ax.legend(loc='center right', fontsize=20)
+# plt.show()
+plt.savefig("angletest.pdf", bbox_inches='tight')
