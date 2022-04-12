@@ -5,7 +5,8 @@ import pandas as pd
 
 # arduino_port = "COM7"
 # arduino_port = "/dev/ttyUSB0"
-arduino_port = "/dev/ttyACM0"
+# arduino_port = "COM9"
+# arduino_port = "/dev/ttyACM0"
 baud = 115200 
 # data = numpy.zero((1))
 data = []
