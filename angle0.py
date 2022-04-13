@@ -22,21 +22,25 @@ ax = fig.add_axes([0.2,0.2,0.6,0.6])
 #50-1200mm with known behavior for the increasing error with distance.
 #we will measure this error with grey17 and white88 to compare.
 
-glass_distance=103.5
-glass_distance_uncertainty=8.7
-target_distance=236.5
-target_distance_uncertainty=8.8
-angle_error=3.5
-glass_angle=np.array([0,0,5,10,15,20,30,40,50,50,60])
-mean_distance=np.array([92.01,90.35,112.21,172.61,240.10,244.83,245.09,244.25,243.55,243.91,242.42])
-std=np.array([1.62,1.80,2.87,2.21,1.92,2.10,2.12,2.09,2.11,2.09,2.31])
-stderr=np.array([0.05,0.06,0.09,0.07,0.06,0.07,0.07,0.07,0.07,0.07,0.07])
+# beam splitter w/ backdrop at 200mm 0 deg incidence
+delta=1.016 # Correct mm distance
+dist=np.array([50, 100, 150, 150])*delta
+dstd=np.array([1.73, 1.80, 1.66, 1.86])*delta
+dmean=np.array([23.21, 73.52, 133.88, 119.12])*delta
+dstderr=np.array([0.06, 0.06, 0.05, 0.06])*delta
+derr=abs(dist-dmean)
+ax.errorbar(dmean,dstd,marker=None, xerr=derr, yerr=dstderr, ls='none', label='LiDaR Target')
+
+# beam splitter w/0 backdrop 0 deg incidence
+delta=1.016 # Correct mm distance
+dist=np.array([50, 100, 150])*delta
+dstd=np.array([1.96, 1.78, 1.83])*delta
+dmean=np.array([17.15, 66.39, 119.12])*delta
+dstderr=np.array([0.06, 0.06, 0.06])*delta
+derr=abs(dist-dmean)
+ax.errorbar(dmean,dstd,marker=None, xerr=derr, yerr=dstderr, ls='none', label='LiDaR No Target')
 
 
-yerr=std+stderr
-xerr=np.ones_like(yerr)*angle_error
-
-ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, ls='none', label='LiDaR Thin Glass')
 ax.axhline(y=glass_distance, xmin=-5, xmax=65,color='orange', label='Glass Distance Measured')
 ax.axhline(y=glass_distance+glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--', label='Glass Distance Uncertainty')
 ax.axhline(y=glass_distance-glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--')

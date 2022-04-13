@@ -1,4 +1,3 @@
-from cmath import rect
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib as mpl
@@ -13,10 +12,7 @@ mpl.rcParams['axes.titlesize'] = 50
 plt.rcParams['text.usetex'] = False
 
 fig = plt.figure(figsize=(10,10))
-# ax = fig.add_axes([0.2,0.2,0.8,0.8])
 ax = fig.add_axes([0.2,0.2,0.6,0.6])
-# ax = fig.add_axes([])
-# ax = fig.add_axes([0.5,1,0.5,1])
 
 #we very the (d) the distance between the source and the window between
 #50-1200mm with known behavior for the increasing error with distance.
@@ -27,16 +23,34 @@ glass_distance_uncertainty=8.7
 target_distance=236.5
 target_distance_uncertainty=8.8
 angle_error=3.5
+
+glass_angle=np.array([0,5,10,15,20,30])
+mean_distance=np.array([149.72,184.03,226.7,244.56,246.58,246.18])
+std=np.array([1.72,1.94,1.68,1.91,1.78,1.90])
+stderr=np.array([0.06,0.06,0.05,0.06,0.06,0.06])
+yerr=std+stderr
+xerr=np.ones_like(yerr)*angle_error
+ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, linestyle='--', label='LiDaR Thick Glass')
+
+
+glass_angle=np.array([0,5,10,15])
+mean_distance=np.array([76.01,126.0,156.8,187.09])
+std=np.array([1.70,1.51,1.60,13.18])
+stderr=np.array([0.06,0.05,0.05,0.04])
+yerr=std+stderr
+xerr=np.ones_like(yerr)*angle_error
+ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, linestyle='--', label='LiDaR Mirror')
+
+
 glass_angle=np.array([0,0,5,10,15,20,30,40,50,50,60])
 mean_distance=np.array([92.01,90.35,112.21,172.61,240.10,244.83,245.09,244.25,243.55,243.91,242.42])
 std=np.array([1.62,1.80,2.87,2.21,1.92,2.10,2.12,2.09,2.11,2.09,2.31])
 stderr=np.array([0.05,0.06,0.09,0.07,0.06,0.07,0.07,0.07,0.07,0.07,0.07])
-
-
 yerr=std+stderr
 xerr=np.ones_like(yerr)*angle_error
+ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, linestyle='--', label='LiDaR Thin Glass')
 
-ax.errorbar(glass_angle,mean_distance,marker=None, xerr=xerr, yerr=yerr, ls='none', label='LiDaR Thin Glass')
+
 ax.axhline(y=glass_distance, xmin=-5, xmax=65,color='orange', label='Glass Distance Measured')
 ax.axhline(y=glass_distance+glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--', label='Glass Distance Uncertainty')
 ax.axhline(y=glass_distance-glass_distance_uncertainty, xmin=-5, xmax=65,color='orange',linestyle='--')
@@ -61,7 +75,6 @@ ax.grid(True,which='major',axis='both',alpha=0.3)
 ax.set_ylabel('Mean Distance (mm)')
 ax.set_xlabel('Window Angle (degrees)')
 ax.set_title('Object Detection Error')
-# ax.legend([f'd = {d}(mm)' for i,d in enumerate(d) if i % 6 == 0], fontsize=32, loc='upper left')
-ax.legend(loc='center right', fontsize=20)
-# plt.show()
-plt.savefig("angletest.pdf", bbox_inches='tight')
+ax.legend(loc='lower right', fontsize=20)
+plt.show()
+#plt.savefig("linearexample.pdf", bbox_inches='tight')
